@@ -38,12 +38,17 @@ code {
     }
 }
 .app {
+
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     margin-top: 4.5vh;
     @include media-breakpoint-up(lg) {
         flex-direction: row;
+    }
+    .cursor {
+        cursor: pointer;
+        display: inline-block;
     }
     .top-bar {
         z-index: 99;

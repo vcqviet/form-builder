@@ -109,10 +109,46 @@ class Question extends MasterEntity
         throw new EntityNotFoundException('Option does not exist on question ' . $this->getId()->toString());
     }
 
+        /**
+     * @var SurveyResponseAnswer[]|Collection
+     * @ORM\OneToMany(targetEntity="FBS\CoreBundle\Entity\FormBuilder\SurveyResponseAnswer", mappedBy="question", cascade={"persist"}, orphanRemoval=true)
+     */
+    private Collection $answers;
+    public function getAnswers(): array
+    {
+        return array_filter($this->answers->toArray(), fn (SurveyResponseAnswer $item) => !$item->isDeleted());
+    }
+
+    public function getAnswer(UuidInterface $id): Question
+    {
+        foreach ($this->getAnswers() as $item) {
+            if ($item->getId()->equals($id)) {
+                return $item;
+            }
+        }
+        throw new EntityNotFoundException('Answer does not exist on question: ' . $this->getId()->toString());
+    }
+    public function addAnswer(SurveyResponseAnswer $answer): void
+    {
+        if ($answer->getQuestion() !== $this) {
+            throw new ConflictException('Answer belongs to another question');
+        }
+        $this->answers->add($answer);
+    }
+    public function removeAnswer(SurveyResponseAnswer $answer): void
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+        } else {
+            throw new EntityNotFoundException('Answer does not exist on question ' . $this->getId()->toString());
+        }
+    }
+
     public function __construct(UuidInterface $id, Survey $survey)
     {
         parent::__construct($id);
         $this->survey = $survey;
         $this->options = new ArrayCollection();
+        $this->answers = new ArrayCollection();
     }
 }

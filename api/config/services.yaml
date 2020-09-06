@@ -67,4 +67,13 @@ services:
     class: FBS\CoreBundle\Entity\User\Handler\PasswordGenerateHandler
     tags:
       - { name: tactician.handler, typehints: true }
+  #SURVEY
+  FBS\CoreBundle\Entity\FormBuilder\Handler\AddSurveyHandler:
+    class: FBS\CoreBundle\Entity\FormBuilder\Handler\AddSurveyHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+  FBS\CoreBundle\Entity\FormBuilder\Handler\DeleteSurveyHandler:
+    class: FBS\CoreBundle\Entity\FormBuilder\Handler\DeleteSurveyHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
 

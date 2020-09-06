@@ -6,12 +6,12 @@ import store from './store/store';
 import './material/scss/index.scss';
 import client from './api/client';
 import AdminApp from './AdminApp';
-import LoginApp from './LoginApp';
+import PublicApp from './PublicApp';
 
 ReactDOM.render(
     <Provider store={store}>
         {client.isLoggedIn() && <AdminApp />}
-        {!client.isLoggedIn() && <LoginApp />}
+        {!client.isLoggedIn() && <PublicApp />}
     </Provider>,
     document.getElementById('root')
 );

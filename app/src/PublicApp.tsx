@@ -7,8 +7,9 @@ import AuthorisedRoute from './components/auth/AuthorisedRoute';
 import PasswordReset from './components/auth/ResetPassword';
 import ForgotPasswordRequest from './components/auth/ForgotPasswordRequest';
 import Dashboard from './components/dashboard/Dashboard';
+import ShareSurvey from './components/survey/ShareSurvey';
 
-const LoginApp: React.FC = () => {
+const PublicApp: React.FC = () => {
     return (
         <Router basename={'/'} >
             <div className={'app'}>
@@ -18,6 +19,7 @@ const LoginApp: React.FC = () => {
                         <Switch>
                             <Route exact path={'/password-reset/:token'} component={PasswordReset} />
                             <Route exact path={'/forgot-password-request'} component={ForgotPasswordRequest} />
+                            <Route exact path={'/share-survey/:id'} component={ShareSurvey} />
                             <Route path={'/login'} component={UserLogin} />
                             <AuthorisedRoute path={'/'} component={Dashboard} />
                         </Switch>
@@ -28,4 +30,4 @@ const LoginApp: React.FC = () => {
     );
 };
 
-export default LoginApp;
+export default PublicApp;
