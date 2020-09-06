@@ -1,21 +1,60 @@
-# form-builder
-Form Builder System
+# Form Builder System
 
-## Technology
+## Requirment
 ```
 . NodeJs 10.16.3
-. ReactJs 16.3.1
-. Php 7.4.1 (Symfony 5)
+. Yarn 1.22.5
+. Php 7.4.1
 . Composer 1.9.0
 . MySql 5.7|8.0
 ```
 
-## Local setup
+## Technology
+### Back End:
 ```
-. pull from git
-. Install package from composer
-. Install node_module
-. Running
+PHP Symfony 5
+MySQL 5.7 or 8.0
+Doctrine ORM 2
+RESTful API
+JWT for Authenticator
+Expandable: micro service, distibuted database system
+Coding Standard: PSR-2, PHPStan
+Testing: PHPSpec
+```
+### Front End:
+```
+ReactJs 16.13.1, Function Component and TypeScript
+React-Bootstrap and FontAwesome for UI
+Testing: cypress
+```
+
+## Local setup
+### Back End:
+```
+. After pull code, go to api folder
+. copy .env to .env.local
+. change config in this file, such as Database, Allow hosting...
+. install package by type: $ composer install
+. create database: $ php bin/console doctrine:database:create
+. migrate database: $ php bin/console doctrine:migration:migrate
+. import sample data: $ php bin/console doctrine:fixtures:load
+. run: $ php bin/console server:run
+```
+### Front End:
+```
+. After pull code, go to app folder
+. copy .env to .env.local
+. change config in this file, such as hosting, domain, default language...
+. install package by type: $ yarn install
+. run: $ yarn start
+```
+
+## Deploy
+```
+Backend: same as local setup
+Frontend: before deploy, we need to build code of frontend.
+. build frontend: go to app folder and type: $ yarn build
+. Deploy frontend by copy all of folder build into web-server
 ```
 
 ## Liscence
