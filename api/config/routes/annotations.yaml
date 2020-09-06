@@ -1,0 +1,7 @@
+controllers:
+    resource: ../../src/FBS/ApiBundle/Controller
+    type: annotation
+
+kernel:
+    resource: ../../src/FBS/Kernel.php
+    type: annotation

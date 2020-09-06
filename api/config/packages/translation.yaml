@@ -1,0 +1,8 @@
+framework:
+    default_locale: '%env(DEFAULT_LANGUAGE)%'
+    translator:
+        paths: 
+            - '%kernel.project_dir%/src/FBS/ApiBundle/i18n'
+            - '%kernel.project_dir%/src/FBS/CoreBundle/i18n'
+        fallbacks:
+            - vi

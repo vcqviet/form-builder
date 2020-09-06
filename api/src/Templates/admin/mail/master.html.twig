@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width" initial-scale="1">
+        <!--[if !mso]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta name="x-apple-disable-message-reformatting">
+        <title></title>
+        <style>
+            * {
+                font-family: sans-serif !important;
+            }
+            .footer {
+                padding-top: 1em;
+            }
+            table.order {
+                table-layout: fixed;
+                border: 1px solid transparent;
+                width: 70%;
+                text-align: left;
+            }
+            table.order td {
+                padding: 0.5em;
+                border: 1px solid #e6e6e6;
+            }
+            table.order th {
+                text-align: left;
+                padding: 0.5em 1em 0.5em 0.5em;
+                background-color: #e6e6e6;
+            }
+            table.fields-order {
+                table-layout: fixed;
+                border: 1px solid transparent;
+                width: 70%;
+                text-align: left;
+                border-spacing: 0 2em;
+            }
+            table.fields-order td {
+                padding: 0.5em;
+            }
+            table.fields-order th {
+                text-align: left;
+                padding: 0.5em 1em 0.5em 0.5em;
+            }
+            .footer-copyright {
+                font-size: 13px;
+                color: #555555;
+                letter-spacing: 0.5px;
+                opacity: 0.7;
+                text-align: center;
+            }
+            button {
+                background-color: #ff0000;
+                border-radius: 28px;
+                border: 1px solid #ab1919;
+                display: inline-block;
+                cursor: pointer;
+                color: #ffffff;
+                font-size: 17px;
+                padding: 16px 31px;
+                text-decoration: none;
+            }
+            button:hover {
+                background-color: #ff0000;
+            }
+            button:active {
+                position: relative;
+                top: 1px;
+            }
+        </style>
+    </head>
+    <body>
+        <table align="left" width="100%">
+            <tr>
+                <td>
+                    {% block content %}
+                    {% endblock %}
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    Form Builder System @copyright 2020
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

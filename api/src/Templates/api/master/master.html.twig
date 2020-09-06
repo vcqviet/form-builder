@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}
+                Form Builder System
+            {% endblock %}
+        </title>
+        <style>
+            th,
+            td {
+                border: 1px solid #ccc;
+                padding: 3px 5px;
+                text-align: left;
+            }
+        </style>
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+        {% if app.user %}
+            <div class="mb-3">
+            <h1 class="text-center">Form Builder System</h1>
+                You are logged in as
+                {{ app.user.username }}
+                ,
+                <a href="{{ path('app_logout') }}">
+                    Logout
+                </a>
+            </div>
+        {% endif %}
+        <hr/>
+        {% block body %}
+        {% endblock %}
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,70 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    bind:
+      $appDebug: "%kernel.debug%"
+      $appDir: "%kernel.project_dir%"
+      $appEnv: "%kernel.environment%"
+
+  Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+    arguments:
+      - "mysql:dbname=%env(resolve:DB_NAME)%; host=%env(resolve:DB_HOST)%; port=%env(resolve:DB_PORT)%"
+      - {db_username: "%env(resolve:DB_USER)%", db_password: "%env(resolve:DB_USER_PASSWORD)%"}
+
+  # makes classes in src/FBS/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  FBS\:
+    resource: "../src/FBS/*"
+    exclude: "../src/FBS/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}"
+
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
+  FBS\ApiBundle\Controller\:
+    resource: "../src/FBS/ApiBundle/Controller"
+    tags: ["controller.service_arguments"]
+
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
+
+  FBS\CoreBundle\Doctrine\Tactician\RollbackAndClearMiddleware:
+    class: FBS\CoreBundle\Doctrine\Tactician\RollbackAndClearMiddleware
+  # CommandBus Handlers Zone
+  # User
+  FBS\CoreBundle\Entity\User\Handler\PasswordResetRequestHandler:
+    class: FBS\CoreBundle\Entity\User\Handler\PasswordResetRequestHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+  FBS\CoreBundle\Entity\User\Handler\PasswordResetHandler:
+    class: FBS\CoreBundle\Entity\User\Handler\PasswordResetHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+  FBS\CoreBundle\Entity\User\Handler\UpdateUserHandler:
+    class: FBS\CoreBundle\Entity\User\Handler\UpdateUserHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+  FBS\CoreBundle\Entity\User\Handler\AddUserHandler:
+    class: FBS\CoreBundle\Entity\User\Handler\AddUserHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+  FBS\CoreBundle\Entity\User\Handler\DeleteUserHandler:
+    class: FBS\CoreBundle\Entity\User\Handler\DeleteUserHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+  FBS\CoreBundle\Entity\User\Handler\PasswordChangeHandler:
+    class: FBS\CoreBundle\Entity\User\Handler\PasswordChangeHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+  FBS\CoreBundle\Entity\User\Handler\PasswordGenerateHandler:
+    class: FBS\CoreBundle\Entity\User\Handler\PasswordGenerateHandler
+    tags:
+      - { name: tactician.handler, typehints: true }
+
