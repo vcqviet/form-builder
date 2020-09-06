@@ -15,6 +15,7 @@ import TopBar from './components/utils/TopBar';
 import Profile from './components/user/Profile';
 import ChangePassword from './components/user/ChangePassword';
 import Surveys from './components/survey/Surveys';
+import ShareSurvey from './components/survey/ShareSurvey';
 
 const AdminApp: React.FC = () => {
     const lang = useSelector((state: StateInterface) => state.lang);
@@ -41,6 +42,7 @@ const AdminApp: React.FC = () => {
                         <Switch>
                             <Route path={'/login'} component={UserLogin} />
                             <Route exact path={'/password-reset/:token'} component={PasswordReset} />
+                            <Route exact path={'/share-survey/:id'} component={ShareSurvey} />
                             <AuthorisedRoute path={'/survey'} component={Surveys} />
                             <AuthorisedRoute path={'/user'} component={Users} />
                             <AuthorisedRoute path={'/profile'} component={Profile} />

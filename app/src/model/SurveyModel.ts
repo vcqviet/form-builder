@@ -15,7 +15,7 @@ class SurveyModel {
     note: string = '';
     status: string = SurveyStatus.STATUS_OPEN;
     questions: Array<QuestionModel> = []
-    surveyResponse: Array<SurveyResponseModel> = [];
+    surveyResponses: Array<SurveyResponseModel> = [];
     constructor() {
         this.id = v4();
     }

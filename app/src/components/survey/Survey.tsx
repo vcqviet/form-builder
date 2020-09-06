@@ -46,7 +46,7 @@ const Survey: React.FC<RouteComponentProps<{id: string}>> = ({match, history}) =
                     <Link to={'/survey'}>{lang['survey']}</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>
-                    {survey.email}
+                    {survey.title}
                 </Breadcrumb.Item>
             </Breadcrumb>
 
@@ -54,11 +54,11 @@ const Survey: React.FC<RouteComponentProps<{id: string}>> = ({match, history}) =
                 <Button className="btn btn-danger" onClick={handleShowModal}>{lang['delete']} {lang['survey']}</Button>
                 <Link className="btn btn-primary" to={{pathname: `/survey/edit/${survey.id}`, state: {survey: survey}}}>{lang['edit']} {lang['survey']}</Link>
             </ButtonToolbar>
-            <h2>{survey.email}</h2>
+            <h2>{survey.title}</h2>
             <Card>
                 <Card.Body>
                     <dl className="row">
-                        <dt className="col-sm-3">{lang['email']}:</dt>
+                        <dt className="col-sm-3">Email:</dt>
                         <dd className="col-sm-9">{survey.email}</dd>
                     </dl>
                     <dl className="row">
@@ -75,7 +75,7 @@ const Survey: React.FC<RouteComponentProps<{id: string}>> = ({match, history}) =
                     </dl>
                     <dl className="row">
                         <dt className="col-sm-3">{lang['survey-response-total']}:</dt>
-                        <dd className="col-sm-9">{survey.surveyResponse.length}</dd>
+                        <dd className="col-sm-9">{survey.surveyResponses?.length || 0}</dd>
                     </dl>
                     <dl className="row">
                         <dt className="col-sm-3">{lang['note']}:</dt>

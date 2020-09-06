@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Route, Link, RouteComponentProps, Switch} from 'react-router-dom'
-import {Breadcrumb, Card, Table, ButtonToolbar, Row, Col, Form} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import {Breadcrumb, Card, Table, ButtonToolbar, Row, Col, Form, Modal} from 'react-bootstrap';
+import {useSelector} from 'react-redux';
 import {StateInterface} from '../../store/store';
 import {faEdit, faTrashAlt, faShareAlt, faAlignJustify} from '@fortawesome/free-solid-svg-icons';
 import ThreedotsMenu, {MenuIconInterface} from '../utils/ThreedotsMenu';
@@ -22,21 +22,21 @@ const Surveys: React.FC<RouteComponentProps> = ({match, history}) => {
     const [isConfirmDelete, setIsConfirmDelete] = useState(false);
     const [isDisplayModalShare, setIsDisplayModalShare] = useState(false);
     const [isDisplayModalResponse, setIsDisplayModalResponse] = useState(false);
-    const dispatch = useDispatch();
 
     //menu threedot
     const deleteEntity = (entity: any) => {
-        setCurrentSelected({...entity});
+        setCurrentSelected(entity);
+        setIsConfirmDelete(true);
     }
     const editEntity = (entity: any) => {
         history.push(`/survey/edit/${entity.id}`, {survey: entity});
     }
     const shareSurvey = (entity: any) => {
-        setCurrentSelected({...entity});
+        setCurrentSelected(entity);
         setIsDisplayModalShare(true);
     }
     const viewSurveyResponse = (entity: any) => {
-        setCurrentSelected({...entity});
+        setCurrentSelected(entity);
         setIsDisplayModalResponse(true);
     }
 
@@ -48,6 +48,7 @@ const Surveys: React.FC<RouteComponentProps> = ({match, history}) => {
     ];
     //confirm
     const confirmOk = (item: any) => {
+        setIsConfirmDelete(false);
         if (item === null) {
             return;
         }
@@ -59,15 +60,23 @@ const Surveys: React.FC<RouteComponentProps> = ({match, history}) => {
     }
     const confirmCancel = (item: any) => {
         setCurrentSelected(null);
+        setIsConfirmDelete(false);
+    }
+    const onCloseShareModal = () => {
+        setCurrentSelected(null);
+        setIsDisplayModalShare(false);
+    }
+    const onCloseResponseModal = () => {
+        setCurrentSelected(null);
+        setIsDisplayModalResponse(false);
+    }
+    const getShareUrl = (): string => {
+        if (!currentSelected) {
+            return '';
+        }
+        return process.env.REACT_APP_DOMAIN + '/share-survey/' + (currentSelected?.id || '');
     }
     //state
-    useEffect(() => {
-        setIsConfirmDelete(false);
-        if (currentSelected !== null) {
-            setIsConfirmDelete(true);
-            return;
-        }
-    }, [currentSelected]);
     useEffect(() => {
         filter.keyword = keyword;
         (async () => {
@@ -106,7 +115,7 @@ const Surveys: React.FC<RouteComponentProps> = ({match, history}) => {
                             <td><Link to={`${match.url}/${item.id}`}>{item.email}</Link></td>
                             <td>{item.title}</td>
                             <td>{item.questions.length}</td>
-                            <td>{item.surveyResponse.length}</td>
+                            <td>{item.surveyResponses?.length || 0}</td>
                             <td><ThreedotsMenu menu={menuAction} entity={item} /></td>
                         </tr>
                     ))}
@@ -114,7 +123,18 @@ const Surveys: React.FC<RouteComponentProps> = ({match, history}) => {
             </Table>
         </Card>
         <ConfirmDialog message={lang['delete'] + " " + lang['survey'] + " " + currentSelected?.title + " ?"} isDisplay={isConfirmDelete} onCancelAction={confirmCancel} onOkAction={confirmOk} item={currentSelected} />
-
+        {isDisplayModalShare && <Modal show={isDisplayModalShare} onHide={onCloseShareModal}>
+            <Modal.Body>
+                <Form.Control type="text" readOnly={true} value={getShareUrl()} />
+            </Modal.Body>
+        </Modal>}
+        {isDisplayModalResponse && <Modal show={isDisplayModalResponse} onHide={onCloseResponseModal}>
+            <Modal.Body>
+                <div>
+                    This feature is not available now !
+                </div>
+            </Modal.Body>
+        </Modal>}
     </>;
 
     return (

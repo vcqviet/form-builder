@@ -36,7 +36,7 @@ class AddSurveyCommand implements ParamConverterCommandInterface
                 'label' => $item['label'],
                 'type' => $item['type'],
                 'note' => $item['note'] ?? '',
-                'options' => $item['option']
+                'options' => $item['options']
             ];
         }
         Assert::stringNotEmpty($command->title, 'Title is required');
