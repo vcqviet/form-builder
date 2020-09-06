@@ -2,15 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {RouteComponentProps} from 'react-router';
 import {Breadcrumb, ButtonToolbar, Card, Button} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import FormBuilderModel from '../../model/FormBuilderModel';
-import {deleteFormBuilder, getFormBuilder} from '../../api/formBuilder/formBuilderApi';
 import {useDispatch, useSelector} from 'react-redux';
 import {StateInterface} from '../../store/store';
 import {setError} from "../utils/Error";
 import ConfirmDialog from "../utils/ConfirmDialog";
+import SurveyModel from '../../model/SurveyModel';
+import {getSurvey, deleteSurvey} from '../../api/survey/surveyApi';
 
-const FormBuilder: React.FC<RouteComponentProps<{id: string}>> = ({match, history}) => {
-    const [formBuilder, setFormBuilder] = useState(new FormBuilderModel());
+const Survey: React.FC<RouteComponentProps<{id: string}>> = ({match, history}) => {
+    const [survey, setSurvey] = useState(new SurveyModel());
     const lang = useSelector((state: StateInterface) => state.lang);
     const [isDisplayConfirmDelete, setIsDisplayConfirmDelete] = useState(false);
     const dispatch = useDispatch();
@@ -19,16 +19,16 @@ const FormBuilder: React.FC<RouteComponentProps<{id: string}>> = ({match, histor
 
     useEffect(() => {
         (async () => {
-            const response = await getFormBuilder(match.params.id);
-            setFormBuilder(response.data)
+            const response = await getSurvey(match.params.id);
+            setSurvey(response.data)
         })();
     }, [match]);
 
-    const deleteFormBuilderHandler = (item: any) => {
+    const deleteSurveyHandler = (item: any) => {
         (async () => {
             try {
-                await deleteFormBuilder(formBuilder);
-                history.push('/formBuilder');
+                await deleteSurvey(survey);
+                history.push('/survey');
             } catch (err) {
                 setError(dispatch, err.message);
             }
@@ -43,29 +43,49 @@ const FormBuilder: React.FC<RouteComponentProps<{id: string}>> = ({match, histor
                     <Link to={'/'}>Dashboard</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>
-                    <Link to={'/formBuilder'}>{lang['form-builder']}</Link>
+                    <Link to={'/survey'}>{lang['survey']}</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>
-                    {formBuilder.email}
+                    {survey.email}
                 </Breadcrumb.Item>
             </Breadcrumb>
 
             <ButtonToolbar className={'actions float-right'} >
-                <Button className="btn btn-danger" onClick={handleShowModal}>{lang['delete']} {lang['form-builder']}</Button>
-                <Link className="btn btn-primary" to={{pathname: `/formBuilder/edit/${formBuilder.id}`, state: {formBuilder: formBuilder}}}>{lang['edit']} {lang['form-builder']}</Link>
+                <Button className="btn btn-danger" onClick={handleShowModal}>{lang['delete']} {lang['survey']}</Button>
+                <Link className="btn btn-primary" to={{pathname: `/survey/edit/${survey.id}`, state: {survey: survey}}}>{lang['edit']} {lang['survey']}</Link>
             </ButtonToolbar>
-            <h2>{formBuilder.email}</h2>
+            <h2>{survey.email}</h2>
             <Card>
                 <Card.Body>
                     <dl className="row">
-                        <dt className="col-sm-3">{lang['form-builder']}:</dt>
-                        <dd className="col-sm-9">{formBuilder.email}</dd>
+                        <dt className="col-sm-3">{lang['email']}:</dt>
+                        <dd className="col-sm-9">{survey.email}</dd>
+                    </dl>
+                    <dl className="row">
+                        <dt className="col-sm-3">{lang['survey-title']}:</dt>
+                        <dd className="col-sm-9">{survey.title}</dd>
+                    </dl>
+                    <dl className="row">
+                        <dt className="col-sm-3">{lang['survey-description']}:</dt>
+                        <dd className="col-sm-9">{survey.description}</dd>
+                    </dl>
+                    <dl className="row">
+                        <dt className="col-sm-3">{lang['survey-question-total']}:</dt>
+                        <dd className="col-sm-9">{survey.questions.length}</dd>
+                    </dl>
+                    <dl className="row">
+                        <dt className="col-sm-3">{lang['survey-response-total']}:</dt>
+                        <dd className="col-sm-9">{survey.surveyResponse.length}</dd>
+                    </dl>
+                    <dl className="row">
+                        <dt className="col-sm-3">{lang['note']}:</dt>
+                        <dd className="col-sm-9">{survey.note}</dd>
                     </dl>
                 </Card.Body>
             </Card>
-            <ConfirmDialog item={formBuilder} message={lang['delete'] + " " + lang['form-builder'] + " " + formBuilder.email + " ?"} isDisplay={isDisplayConfirmDelete} onCancelAction={handleCloseModal} onOkAction={deleteFormBuilderHandler} />
+            <ConfirmDialog item={survey} message={lang['delete'] + " " + lang['survey'] + " " + survey.title + " ?"} isDisplay={isDisplayConfirmDelete} onCancelAction={handleCloseModal} onOkAction={deleteSurveyHandler} />
         </>
     )
 };
 
-export default FormBuilder;
+export default Survey;

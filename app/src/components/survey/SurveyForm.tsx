@@ -7,19 +7,19 @@ import {useDispatch, useSelector} from 'react-redux';
 import {clearError, setError} from '../utils/Error';
 import LoadingButton from '../utils/LoadingButton';
 import {StateInterface} from '../../store/store';
-import FormBuilderModel from '../../model/FormBuilderModel';
-import {putFormBuilder, patchFormBuilder} from '../../api/formBuilder/formBuilderApi';
+import SurveyModel from '../../model/SurveyModel';
+import {putSurvey, patchSurvey} from '../../api/survey/surveyApi';
 
-type FormBuilderFormProps = {
+type SurveyFormProps = {
     history: History;
-    location: Location<{formBuilder?: FormBuilderModel}>;
+    location: Location<{survey?: SurveyModel}>;
 }
-const FormBuilderForm: React.FC<FormBuilderFormProps> = ({history, location}) => {
+const SurveyForm: React.FC<SurveyFormProps> = ({history, location}) => {
     const lang = useSelector((state: StateInterface) => state.lang);
     const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
-    const isNew = !(location.state?.formBuilder?.email);
-    const [formBuilder, setFormBuilder] = useState<FormBuilderModel>(location.state?.formBuilder || new FormBuilderModel());
+    const isNew = !(location.state?.survey?.email);
+    const [survey, setSurvey] = useState<SurveyModel>(location.state?.survey || new SurveyModel());
     const dispatch = useDispatch();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -36,8 +36,8 @@ const FormBuilderForm: React.FC<FormBuilderFormProps> = ({history, location}) =>
 
         (async () => {
             try {
-                isNew ? await putFormBuilder(formBuilder) : await patchFormBuilder(formBuilder);
-                history.push(`/form-builder/${formBuilder.id}`);
+                isNew ? await putSurvey(survey) : await patchSurvey(survey);
+                history.push(`/survey/${survey.id}`);
             } catch (err) {
                 setError(dispatch, err.message);
                 setLoading(false);
@@ -47,7 +47,7 @@ const FormBuilderForm: React.FC<FormBuilderFormProps> = ({history, location}) =>
 
     const handleChange = (element: any) => {
         clearError(dispatch);
-        setFormBuilder({...formBuilder, [element.target.name]: element.target.value});
+        setSurvey({...survey, [element.target.name]: element.target.value});
     };
     return (
         <>
@@ -56,11 +56,11 @@ const FormBuilderForm: React.FC<FormBuilderFormProps> = ({history, location}) =>
                     <Link to={'/'}>Dashboard</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>
-                    <Link to={'/form-builder'}>{lang['form-builder']}</Link>
+                    <Link to={'/survey'}>{lang['survey']}</Link>
                 </Breadcrumb.Item>
                 {!isNew &&
                     <Breadcrumb.Item active>
-                        <Link to={`/form-builder/${formBuilder.id}`}>{formBuilder.id}</Link>
+                        <Link to={`/survey/${survey.id}`}>{survey.id}</Link>
                     </Breadcrumb.Item>
                 }
                 <Breadcrumb.Item active>
@@ -74,11 +74,27 @@ const FormBuilderForm: React.FC<FormBuilderFormProps> = ({history, location}) =>
 
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control autoComplete={'off'} required type={'email'} name={'email'} value={formBuilder.email} />
+                            <Form.Control autoComplete={'off'} required type={'email'} name={'email'} value={survey.email} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{lang['json-format']}</Form.Label>
-                            <Form.Control as={'textarea'} autoComplete={'off'} required name={'jsonFormat'} value={formBuilder.jsonFormat} />
+                            <Form.Label>{lang['survey-title']}</Form.Label>
+                            <Form.Control autoComplete={'off'} required type={'text'} name={'title'} value={survey.title} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>{lang['survey-description']}</Form.Label>
+                            <Form.Control as={'textarea'} autoComplete={'off'} required name={'description'} value={survey.description} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>{lang['survey-note']}</Form.Label>
+                            <Form.Control as={'textarea'} autoComplete={'off'} required name={'note'} value={survey.note} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>{lang['survey-question']}</Form.Label>
+                            <Card>
+                                <Card.Body>
+                                    
+                                </Card.Body>
+                            </Card>
                         </Form.Group>
                         <LoadingButton loading={loading}>{lang['save']}</LoadingButton>
                     </Form>
@@ -88,4 +104,4 @@ const FormBuilderForm: React.FC<FormBuilderFormProps> = ({history, location}) =>
     )
 };
 
-export default FormBuilderForm;
+export default SurveyForm;

@@ -2,7 +2,6 @@ import {v4} from 'uuid';
 import SurveyModel from './SurveyModel';
 import OptionModel from './OptionModel';
 
-
 export enum QuestionType {
     TYPE_INPUT_TEXT = 'TYPE_INPUT_TEXT',
     TYPE_INPUT_RADIO = 'TYPE_INPUT_RADIO',
