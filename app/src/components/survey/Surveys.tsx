@@ -81,13 +81,13 @@ const Surveys: React.FC<RouteComponentProps> = ({match, history}) => {
                 <Link to={'/'}>Dashboard</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item active>
-                {lang['form-builder']}
+                {lang['survey']}
             </Breadcrumb.Item>
         </Breadcrumb>
         <ButtonToolbar className={'float-right'}>
-            <Link className="btn btn-primary" to={'/form-builder/new'}>{lang['new']} {lang['form-builder']}</Link>
+            <Link className="btn btn-primary" to={'/survey/new'}>{lang['new']} {lang['survey']}</Link>
         </ButtonToolbar>
-        <h2>{lang['form-builder']}</h2>
+        <h2>{lang['survey']}</h2>
         <Row>
             <Col xs lg={{span: 4, offset: 8}}>
                 <Form.Control type={'text'} placeholder={lang['search']} name={'keyword'} defaultValue={filter.keyword} onChange={(e: any) => setKeyword(e.target.value)} />

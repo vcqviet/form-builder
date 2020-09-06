@@ -52,7 +52,10 @@
     "generate-password": "Generate a new password",
     "random": "Random",
     "click-here": "Click here",
-    "survey": "Form Builder",
+    "survey": "Survey",
     "welcome": "Welcome to Form Builder System",
-    "menu-survey": "Survey"
+    "menu-survey": "Survey",
+    "survey-title": "Form title",
+    "survey-question-total": "Total question",
+    "survey-response-total": "Total response"
 }

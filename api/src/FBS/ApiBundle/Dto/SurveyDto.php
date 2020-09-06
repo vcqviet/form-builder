@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FBS\ApiBundle\Dto;
 
 use FBS\CoreBundle\Entity\FormBuilder\Survey;
+use FBS\CoreBundle\Entity\FormBuilder\SurveyResponse;
 
 final class SurveyDto
 {
@@ -26,7 +27,8 @@ final class SurveyDto
         $dto->description = $survey->getDescription();
         $dto->note = $survey->getNote();
         $dto->questions = $survey->getQuestions();
-        $dto->surveyResponses = $survey->getSurveyResponses();
+        $dto->surveyResponses = array_map(fn (SurveyResponse $item) => SurveyResponseDto::fromEntity($item), $survey->getSurveyResponses());
+        $dto->status = $survey->getStatus()->getValue();
         return $dto;
     }
 }
