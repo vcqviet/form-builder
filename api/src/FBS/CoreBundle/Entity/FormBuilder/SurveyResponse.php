@@ -49,7 +49,7 @@ class SurveyResponse extends MasterEntity
 
     
     /**
-     * @ORM\ManyToOne(targetEntity="FBS\CoreBundle\Entity\FormBuilder\Survey", inversedBy="questions")
+     * @ORM\ManyToOne(targetEntity="FBS\CoreBundle\Entity\FormBuilder\Survey", inversedBy="surveyResponses")
      * @ORM\JoinColumn(name="survey_id", referencedColumnName="id", nullable=false)
      */
     private Survey $survey;

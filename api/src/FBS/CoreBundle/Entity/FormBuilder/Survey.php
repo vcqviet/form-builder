@@ -121,6 +121,42 @@ class Survey extends MasterEntity
         }
     }
 
+
+    
+    /**
+     * @var SurveyResponse[]|Collection
+     * @ORM\OneToMany(targetEntity="FBS\CoreBundle\Entity\FormBuilder\SurveyResponse", mappedBy="survey", cascade={"persist"}, orphanRemoval=true)
+     */
+    private Collection $surveyResponses;
+    public function getSurveyResponses(): array
+    {
+        return array_filter($this->surveyResponses->toArray(), fn (SurveyResponse $item) => !$item->isDeleted());
+    }
+
+    public function getSurveyResponse(UuidInterface $id): SurveyResponse
+    {
+        foreach ($this->getSurveyResponses() as $item) {
+            if ($item->getId()->equals($id)) {
+                return $item;
+            }
+        }
+        throw new EntityNotFoundException('Survey Response does not exist on survey: ' . $this->getId()->toString());
+    }
+    public function addSurveyResponse(SurveyResponse $surveyResponse): void
+    {
+        if ($surveyResponse->getSurvey() !== $this) {
+            throw new ConflictException('Survey Response belongs to another survey');
+        }
+        $this->surveyResponses->add($surveyResponse);
+    }
+    public function removeSurveyResponse(SurveyResponse $surveyResponse): void
+    {
+        if ($this->surveyResponses->contains($surveyResponse)) {
+            $this->surveyResponses->removeElement($surveyResponse);
+        } else {
+            throw new EntityNotFoundException('Survey Response does not exist on survey ' . $this->getId()->toString());
+        }
+    }
     public function __construct(UuidInterface $id, Email $email, string $title)
     {
         parent::__construct($id);
@@ -128,5 +164,6 @@ class Survey extends MasterEntity
         $this->title = $title;
         $this->status = SurveyStatus::STATUS_OPEN();
         $this->questions = new ArrayCollection();
+        $this->surveyResponses = new ArrayCollection();
     }
 }
