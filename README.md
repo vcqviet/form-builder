@@ -48,6 +48,12 @@ Testing: cypress
 . install package by type: $ yarn install
 . run: $ yarn start
 ```
+## Login
+```
+login with account:
+email: fbs-admin@demo.com
+password: demo
+```
 
 ## Deploy
 ```
@@ -55,6 +61,14 @@ Backend: same as local setup
 Frontend: before deploy, we need to build code of frontend.
 . build frontend: go to app folder and type: $ yarn build
 . Deploy frontend by copy all of folder build into web-server
+```
+
+## Online
+```
+please visit: http://demo.hikazu.com/
+login with account:
+email: fbs-admin@demo.com
+password: demo
 ```
 
 ## Liscence
