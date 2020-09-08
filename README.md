@@ -17,7 +17,7 @@ MySQL 5.7 or 8.0
 Doctrine ORM 2
 RESTful API
 JWT for Authenticator
-Expandable: micro service, distibuted database system
+Expandable: micro service, distributed database system
 Coding Standard: PSR-2, PHPStan
 Testing: PHPSpec
 ```
@@ -69,6 +69,15 @@ please visit: http://demo.hikazu.com/
 login with account:
 email: fbs-admin@demo.com
 password: demo
+```
+
+## Features
+```
+. User management
+. User Role
+. Login/Logout
+. Reset/Change password
+. Survey Form Builder list/create
 ```
 
 ## Liscence
