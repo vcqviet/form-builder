@@ -63,14 +63,6 @@ Frontend: before deploy, we need to build code of frontend.
 . Deploy frontend by copy all of folder build into web-server
 ```
 
-## Online
-```
-please visit: http://demo.hikazu.com/ (deactived)
-login with account:
-email: fbs-admin@demo.com
-password: demo
-```
-
 ## Features
 ```
 . User management
