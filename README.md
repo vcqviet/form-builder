@@ -65,7 +65,7 @@ Frontend: before deploy, we need to build code of frontend.
 
 ## Online
 ```
-please visit: http://demo.hikazu.com/
+please visit: http://demo.hikazu.com/ (deactived)
 login with account:
 email: fbs-admin@demo.com
 password: demo
